@@ -5,12 +5,16 @@ const DataContext = createContext();
 export function DataProvider({ children }) {
   const [items, setItems] = useState([]);
 
-  // fetchItems now accepts an optional AbortSignal to allow request cancellation.
-  // This prevents memory leaks by ensuring setItems is not called if the component unmounts before the fetch completes.
-  // If the fetch is aborted (e.g., due to component unmount), we catch the AbortError and simply return without updating state.
-  const fetchItems = useCallback(async (signal) => {
+  // fetchItems aceita parâmetros de busca e paginação
+  const fetchItems = useCallback(async ({ signal, q = '', limit = 500, page = 1 } = {}) => {
     try {
-      const res = await fetch('http://localhost:4001/api/items?limit=500', { signal });
+      const params = new URLSearchParams();
+      if (q) params.append('q', q);
+      if (limit) params.append('limit', limit);
+      // Adiciona paginação (offset)
+      if (page && limit) params.append('offset', (page - 1) * limit);
+      const url = `http://localhost:4001/api/items?${params.toString()}`;
+      const res = await fetch(url, { signal });
       const json = await res.json();
       setItems(json);
     } catch (err) {
