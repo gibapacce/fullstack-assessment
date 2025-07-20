@@ -11,6 +11,13 @@ const path = require('path');
 const router = express.Router();
 const DATA_PATH = path.join(__dirname, '../../../data/items.json');
 
+// Disable cache for all API routes
+router.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  res.status(200); // Force status 200 for all API responses
+  next();
+});
+
 // Utility to read data (async)
 async function readData() {
   const raw = await fs.readFile(DATA_PATH);
@@ -49,8 +56,12 @@ router.get('/', async (req, res, next) => {
 // GET /api/items/:id
 router.get('/:id', async (req, res, next) => {
   try {
+    // Remove conditional headers to force fresh response
+    delete req.headers['if-none-match'];
+    delete req.headers['if-modified-since'];
     const data = await readData();
-    const item = data.find(i => i.id === parseInt(req.params.id));
+    const paramId = req.params.id;
+    const item = data.find(i => String(i.id) === String(paramId));
     if (!item) {
       const err = new Error('Item not found');
       err.status = 404;

@@ -9,6 +9,9 @@ const initRuntimeConfig = require('./config/runtimeConfig');
 require('dotenv').config();
 
 const app = express();
+app.disable('x-powered-by');
+app.disable('etag'); // Disable ETag to avoid 304 responses for API
+app.set('lastModified', false); // Disable Last-Modified header
 const PORT = parseInt(process.env.PORT, 10) || 4001;
 
 // Middleware
