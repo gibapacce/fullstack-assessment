@@ -12,7 +12,13 @@ const app = express();
 const PORT = parseInt(process.env.PORT, 10) || 4001;
 
 // Middleware
-app.use(cors({ origin: `http://localhost:${PORT}` }));
+/*
+  CHANGE: CORS configuration
+  - Now allows requests from http://localhost:3000 (frontend).
+  - The old code is kept below, commented out, for reference.
+*/
+app.use(cors({ origin: 'http://localhost:3000' }));
+// app.use(cors({ origin: `http://localhost:${PORT}` })); // Old code: only allowed same port as backend
 app.use(express.json());
 app.use(morgan('dev'));
 initRuntimeConfig();

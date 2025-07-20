@@ -17,7 +17,6 @@ function Items() {
   const [page, setPage] = useState(1);
   const limit = 20;
 
-  // Function to fetch items with pagination and search
   const loadItems = useCallback((signal) => {
     fetchItems({ signal, q: search, limit, page });
   }, [fetchItems, search, page]);
@@ -30,11 +29,10 @@ function Items() {
 
   if (!items.length) return <p>Loading...</p>;
 
-  // Row renderer for react-window
   const Row = ({ index, style }) => {
     const item = items[index];
     return (
-      <li style={style} key={item.id}>
+      <li style={style}>
         <Link to={'/items/' + item.id}>{item.name}</Link>
       </li>
     );
