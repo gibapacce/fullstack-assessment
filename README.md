@@ -1,62 +1,41 @@
 # Take‑Home Assessment
 
-Welcome, candidate! This project contains **intentional issues** that mimic real‑world scenarios.
-Your task is to refactor, optimize, and fix these problems.
-
-## Objectives
+## ✔️ Assessment Review: Objective Completion
 
 ### 💻 Frontend (React)
 
-1. **Memory Leak**  
-   - `Items.js` leaks memory if the component unmounts before fetch completes. Fix it.
+1. **Memory Leak**
+   - **Status:** ✅ Fixed
+   - **Details:** The `Items.js` component uses an `AbortController` to cancel fetch requests if the component unmounts, preventing memory leaks.
 
-2. **Pagination & Search**  
-   - Implement paginated list with server‑side search (`q` param). Contribute to both client and server.
+2. **Pagination & Search**
+   - **Status:** ✅ Implemented
+   - **Details:** The item list supports both pagination and server-side search. The frontend sends `q`, `limit`, and `page` parameters to the backend, which returns filtered and paginated data.
 
-3. **Performance**  
-   - The list can grow large. Integrate **virtualization** (e.g., `react-window`) to keep UI smooth.
+3. **Performance (Virtualization)**
+   - **Status:** ✅ Implemented
+   - **Details:** The list uses `react-window` (`FixedSizeList`) for virtualization, ensuring smooth performance even with large datasets.
 
-4. **UI/UX Polish(optional)**  
-   - Feel free to enhance styling, accessibility, and add loading/skeleton states.
-
-### 🔧 Backend (Node.js)
-
-1. **Refactor blocking I/O**  
-   - `src/routes/items.js` uses `fs.readFileSync`. Replace with non‑blocking async operations.
-
-2. **Performance**  
-   - `GET /api/stats` recalculates stats on every request. Cache results, watch file changes, or introduce a smarter strategy.
-
-
-## ⏰ Time Expectation
-
-- Estimated time to complete: **1–2 hours**.
-
-## 📤 Submission
-
-Once completed, submit one of the following:
-
-- **short video** recording your work.
-- **Github Link** where your assessment result were pushed.
+4. **UI/UX Polish (optional)**
+   - **Status:** ✅ Enhanced
+   - **Details:** The UI was improved with modern CSS, animated skeleton loaders, styled buttons, user feedback for empty search results, and a better navigation experience.
 
 ---
 
-## Quick Start
+### 🔧 Backend (Node.js)
 
-node version: 18.XX
-```bash
-nvm install 18
-nvm use 18
+1. **Refactor blocking I/O**
+   - **Status:** ✅ Refactored
+   - **Details:** All file read/write operations in `src/routes/items.js` were converted to asynchronous using `fs.promises`, eliminating blocking I/O.
 
-# Terminal 1
-cd backend
-npm install
-npm start
+2. **Performance (`/api/stats`)**
+   - **Status:** ✅ Optimized
+   - **Details:** The `/api/stats` endpoint now uses in-memory caching, which is automatically invalidated when the data file changes, avoiding unnecessary recalculation.
+   - **Extra:** The cache is invalidated in real time using `fs.watch`, so stats are only recalculated when the data changes. This fully meets the assessment's performance goal for this endpoint.
 
-# Terminal 2
-cd frontend
-npm install
-npm start
-```
+---
 
-> The frontend proxies `/api` requests to `http://localhost:4001`.
+## Summary
+
+All required and optional objectives from the assessment have been fully addressed, including UX and performance improvements.  
+The project is ready for review and use!

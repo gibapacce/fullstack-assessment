@@ -7,6 +7,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { mean } = require('../utils/stats'); // CHANGE: Use mean utility for average calculation
 const router = express.Router();
 const DATA_PATH = path.join(__dirname, '../../data/items.json');
 
@@ -58,7 +59,8 @@ router.get('/', (req, res, next) => {
     // Intentional heavy CPU calculation
     const stats = {
       total: items.length,
-      averagePrice: items.reduce((acc, cur) => acc + cur.price, 0) / items.length
+      // CHANGE: Use mean utility instead of manual reduce
+      averagePrice: mean(items.map(i => i.price))
     };
     statsCache = stats;
     lastCacheTime = Date.now();
