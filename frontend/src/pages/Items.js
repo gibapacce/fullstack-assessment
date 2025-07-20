@@ -1,3 +1,10 @@
+/*
+  CHANGES MADE:
+  - Added search input and pagination controls (Previous/Next buttons) to the UI.
+  - Integrated with the backend to fetch only the items for the current page and search query.
+  - Uses react-window (FixedSizeList) for list virtualization, improving performance with large lists.
+  - The user can search for items by name and navigate through pages, with only the relevant data loaded per page.
+*/
 import React, { useEffect, useState, useCallback } from 'react';
 import { useData } from '../state/DataContext';
 import { Link } from 'react-router-dom';
@@ -10,7 +17,7 @@ function Items() {
   const [page, setPage] = useState(1);
   const limit = 20;
 
-  // Função para buscar itens com paginação e busca
+  // Function to fetch items with pagination and search
   const loadItems = useCallback((signal) => {
     fetchItems({ signal, q: search, limit, page });
   }, [fetchItems, search, page]);

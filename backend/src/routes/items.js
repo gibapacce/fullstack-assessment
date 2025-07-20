@@ -1,3 +1,10 @@
+/*
+  CHANGES MADE:
+  - Replaced blocking fs.readFileSync/fs.writeFileSync with async fs.promises methods for non-blocking I/O.
+  - Added support for 'offset' query parameter to enable pagination (together with 'limit').
+  - The 'q' parameter allows server-side search by item name.
+  - The GET /api/items route now supports efficient, paginated, and filtered data retrieval for the frontend.
+*/
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
@@ -22,7 +29,7 @@ router.get('/', async (req, res, next) => {
       results = results.filter(item => item.name.toLowerCase().includes(q.toLowerCase()));
     }
 
-    // Aplica offset antes do limit
+    // Apply offset before limit
     let start = 0;
     if (offset) {
       start = parseInt(offset) || 0;

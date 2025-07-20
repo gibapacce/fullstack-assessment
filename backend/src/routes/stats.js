@@ -1,3 +1,9 @@
+/*
+  CHANGES MADE:
+  - Implemented in-memory caching for the /api/stats endpoint to avoid recalculating stats on every request.
+  - The cache is automatically invalidated if the items.json file changes (using fs.watch).
+  - This greatly improves performance for repeated stats requests while ensuring data stays up-to-date.
+*/
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
